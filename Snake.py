@@ -7,7 +7,7 @@ pygame.font.init()
 # Constants
 WIDTH, HEIGHT = 600, 400
 CELL_SIZE = 20
-FPS = 10
+FPS = 9
 
 # Colors
 WHITE = (255, 255, 255)
@@ -32,10 +32,14 @@ score = 0
 
 def draw_snake(snake):
     for segment in snake:
-        pygame.draw.rect(screen, GREEN, (*segment, CELL_SIZE, CELL_SIZE))
+        center = (segment[0] + CELL_SIZE // 2, segment[1] + CELL_SIZE // 2)
+        radius = CELL_SIZE // 2
+        pygame.draw.circle(screen, GREEN, center, radius)
 
 def draw_food(position):
-    pygame.draw.rect(screen, RED, (*position, CELL_SIZE, CELL_SIZE))
+    center = (position[0] + CELL_SIZE // 2, position[1] + CELL_SIZE // 2)
+    radius = CELL_SIZE // 2
+    pygame.draw.circle(screen, RED, center, radius)
 
 def move_snake(snake, direction):
     head = snake[0]
