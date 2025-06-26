@@ -2,6 +2,8 @@ import pygame, sys, random
 
 # Initialize Pygame
 pygame.init()
+# add font for score board
+pygame.font.init()
 
 # Constants
 WIDTH, HEIGHT = 600, 400
