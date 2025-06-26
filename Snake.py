@@ -2,7 +2,6 @@ import pygame, sys, random
 
 # Initialize Pygame
 pygame.init()
-# add font for score board
 pygame.font.init()
 
 # Constants
@@ -13,7 +12,6 @@ FPS = 10
 # Colors
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
-DARK_GREEN = (0, 155, 0)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
@@ -22,11 +20,15 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snake Game")
 clock = pygame.time.Clock()
 
+# Font for scoreboard
+font = pygame.font.SysFont(None, 36)
+
 # Snake and food setup
-snake = [(100, 100), (80, 100), (60, 100)]  # initial body
-direction = (CELL_SIZE, 0)  # moving right
+snake = [(100, 100), (80, 100), (60, 100)]
+direction = (CELL_SIZE, 0)
 food = (random.randint(0, WIDTH // CELL_SIZE - 1) * CELL_SIZE,
         random.randint(0, HEIGHT // CELL_SIZE - 1) * CELL_SIZE)
+score = 0
 
 def draw_snake(snake):
     for segment in snake:
@@ -71,18 +73,24 @@ while True:
     next_head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
     if next_head == food:
         snake = grow_snake(snake, direction)
+        score += 1
         food = (random.randint(0, WIDTH // CELL_SIZE - 1) * CELL_SIZE,
                 random.randint(0, HEIGHT // CELL_SIZE - 1) * CELL_SIZE)
     else:
         snake = move_snake(snake, direction)
 
     if check_collision(snake):
-        print("Game Over!")
+        print("Game Over! Final Score:", score)
         pygame.quit()
         sys.exit()
 
     screen.fill(BLACK)
     draw_snake(snake)
     draw_food(food)
+
+    # Draw score
+    score_text = font.render(f"Score: {score}", True, WHITE)
+    screen.blit(score_text, (10, 10))
+
     pygame.display.flip()
     clock.tick(FPS)
